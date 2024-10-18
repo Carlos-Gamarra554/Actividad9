@@ -1,7 +1,7 @@
 import org.w3c.dom.ls.LSOutput;
 import java.util.Scanner;
 
-        public class Menu {
+        public class Ejercicio1 {
             public static void main(String[] args) {
                 Scanner sc = new Scanner(System.in);
 
@@ -11,6 +11,14 @@ import java.util.Scanner;
                         "4. Potencias\n" +
                         "5. Número de dígitos\n" +
                         "6. Voltea el número\n" +
+                        "7. digitoN\n" +
+                        "8. Posición del dígito\n" +
+                        "9. Quita por detrás\n" +
+                        "10. Quita por delante\n" +
+                        "11. Pegar por detrás\n" +
+                        "12. Pegar por delante\n" +
+                        "13. Trozo de número\n" +
+                        "14. Juntar números\n" +
                         "Elige la función: ");
 
                 int opcion = sc.nextInt();
@@ -50,27 +58,35 @@ import java.util.Scanner;
                         break;
                     case 7:
                         System.out.println("DígitoN!");
+                        System.out.println("El carácter en dicha posición es: " + digitoN());
                         break;
                     case 8:
                         System.out.println("Posición de dígito!");
+                        System.out.println("El dígito en la posición elegida es: " + posicionDeDigito());
                         break;
                     case 9:
                         System.out.println("Quita números por detrás!");
+                        System.out.println("El resultado es: " + quitaPorDetras());
                         break;
                     case 10:
                         System.out.println("Quita números por delante!");
+                        System.out.println("El resultado es: " + quitarPorDelante());
                         break;
                     case 11:
                         System.out.println("Pega por detrás!");
+                        System.out.println("El resultado es: " + pegarPorDetras());
                         break;
                     case 12:
                         System.out.println("Pega por delante!");
+                        System.out.println("El resultado es: " + pegarPorDelante());
                         break;
                     case 13:
                         System.out.println("Trozo de número!");
+                        System.out.println("El resultado es: " + trozoDeNumero());
                         break;
                     case 14:
                         System.out.println("Junta números!");
+                        System.out.println("El resultado es: " + juntaNumeros());
                         break;
                     default:
                         System.out.println("Opción no válida!");
@@ -81,9 +97,7 @@ import java.util.Scanner;
             public static int numero() {
                 Scanner sc = new Scanner(System.in);
                 System.out.print("Introduce un número: ");
-                int num = sc.nextInt();
-
-                return num;
+                return sc.nextInt();
             }
             //1
             public static boolean esCapicua() {
@@ -141,8 +155,110 @@ import java.util.Scanner;
 
                 return Integer.parseInt(numeroVolteado);
             }
+            //7
+            public static int digitoN() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce la posición que quieres saber: ");
+                int posicion = sc.nextInt();
 
+                return (num / (int) Math.pow(10, posicion - 1)) % 10;
+            }
+            //8
+            public static int posicionDeDigito() {
+                Scanner sc = new Scanner(System.in);
+                int numero = numero();
+                System.out.print("Introduce la posición que desees saber: ");
+                int num2 = sc.nextInt();
+                int resultado = 0;
+                String num = Integer.toString(numero);
 
+                for (int i = 0; i < num.length(); i++) {
+                    if (num.charAt(i) == (char) (num2 + '0')) {
+                        return i + 1;
+                    }
+                    resultado = i + 1;
+                }
+                return resultado;
+            }
+            //9
+            public static int quitaPorDetras() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce la cantidad de números que quieres quitar: ");
+                int quitar = sc.nextInt();
 
+                return (num / (int) (Math.pow(10, quitar)));
 
+            }
+            //10
+            public static int quitarPorDelante() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce la cantidad de números que quieres quitar: ");
+                int quitar = sc.nextInt();
+                String numero = String.valueOf(Math.abs(num));
+
+                if (quitar >= numero.length()) {
+                    return 0;
+                }
+                String resultado = numero.substring(quitar);
+                return Integer.parseInt(resultado);
+            }
+            //11
+            public static int pegarPorDetras() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce los números que quieres pegar: ");
+                int pegar = sc.nextInt();
+
+                if (pegar < 0 || pegar > 9) {
+                    System.out.print("Introduce el número de nuevo: ");
+                    return num;
+                }
+                return num * 10 + pegar;
+            }
+            //12
+            public static int pegarPorDelante() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce los números que quieres pegar: ");
+                int num2 = num;
+                int pegar = sc.nextInt();
+                int numDigitos = 0;
+
+                while (num2 > 0) {
+                    num2 = num2 / 10;
+                    numDigitos++;
+                }
+                return num + (pegar * (int) Math.pow(10, numDigitos));
+            }
+            //13
+            public static int trozoDeNumero() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce el dígito de comienzo: ");
+                int inicio = sc.nextInt();
+                System.out.print("Introduce el dígito del final: ");
+                int fin = sc.nextInt();
+                String numStr = Integer.toString(num);
+
+                if (inicio < 0 || fin >= numStr.length() || inicio > fin) {
+                    System.out.println("Índices inválidos.");
+                    return -1;
+                }
+                String trozoNum = numStr.substring(inicio -1, fin);
+
+                return Integer.parseInt(trozoNum);
+            }
+            //14
+            public static int juntaNumeros() {
+                Scanner sc = new Scanner(System.in);
+                int num = numero();
+                System.out.print("Introduce el número que quieras pegar: ");
+                int pegarNum = sc.nextInt();
+                int numDigitos = Integer.toString(pegarNum).length();
+
+                return num * (int) Math.pow(10, numDigitos) + pegarNum;
+            }
         }
